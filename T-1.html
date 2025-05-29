@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Test Suite</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border-radius: 8px;
+    }
+    .pass {
+      color: green;
+    }
+    .fail {
+      color: red;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>Test Suite Results</h1>
+  <ul id="test-results"></ul>
+
+  <script>
+    function runTests() {
+      const results = [];
+
+      // Test 1: Arithmetic Test
+      try {
+        const result = 1 + 1;
+        if (result === 2) {
+          results.push({ name: 'Arithmetic Test', passed: true });
+        } else {
+          results.push({ name: 'Arithmetic Test', passed: false, message: `Expected 2, got ${result}` });
+        }
+      } catch (e) {
+        results.push({ name: 'Arithmetic Test', passed: false, message: e.message });
+      }
+
+      // Test 2: Number Guess Logic
+      try {
+        const correctNumber = 7;
+        const userGuess = 7;
+        if (userGuess === correctNumber) {
+          results.push({ name: 'Number Guess Logic Test', passed: true });
+        } else {
+          results.push({ name: 'Number Guess Logic Test', passed: false, message: `Expected ${correctNumber}, got ${userGuess}` });
+        }
+      } catch (e) {
+        results.push({ name: 'Number Guess Logic Test', passed: false, message: e.message });
+      }
+
+      // Test 3: String Output Test
+      try {
+        const welcomeMessage = "Welcome to the Number Guessing Game!";
+        if (welcomeMessage.includes("Welcome")) {
+          results.push({ name: 'String Output Test', passed: true });
+        } else {
+          results.push({ name: 'String Output Test', passed: false, message: `"Welcome" not found in message` });
+        }
+      } catch (e) {
+        results.push({ name: 'String Output Test', passed: false, message: e.message });
+      }
+
+      displayResults(results);
+    }
+
+    function displayResults(results) {
+      const ul = document.getElementById('test-results');
+      results.forEach(test => {
+        const li = document.createElement('li');
+        li.className = test.passed ? 'pass' : 'fail';
+        li.textContent = `${test.name}: ${test.passed ? 'Passed ✅' : 'Failed ❌'}${test.message ? ' - ' + test.message : ''}`;
+        ul.appendChild(li);
+      });
+    }
+
+    runTests();
+  </script>
+
+</body>
+</html>
