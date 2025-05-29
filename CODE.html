@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NumberAll - Number Logic Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>Welcome to NumberAll!</h1>
+
+  <div id="intro-section" class="section">
+    <p>Choose a difficulty level:</p>
+    <select id="difficulty">
+      <option value="10">1. Facile Mode (1-10)</option>
+      <option value="50">2. Easy (1-50)</option>
+      <option value="100">3. Medium (1-100)</option>
+      <option value="200">4. Hard (1-200)</option>
+      <option value="1000">5. Turbo Mode (1-1000)</option>
+    </select>
+    <br>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <div id="game-section" class="section hidden">
+    <p id="game-message"></p>
+    <input type="number" id="guess-input" placeholder="Enter your guess" />
+    <button onclick="submitGuess()">Submit Guess</button>
+    <p id="feedback"></p>
+    <p id="attempts"></p>
+  </div>
+
+  <div id="result-section" class="section hidden">
+    <p id="result-message"></p>
+    <button onclick="startGame()">Play Again</button>
+    <button onclick="resetGame()">Exit</button>
+  </div>
+
+  <script>
+    let numberToGuess = 0;
+    let attempts = 0;
+    let numberRange = 10;
+
+    function startGame() {
+      numberRange = parseInt(document.getElementById("difficulty").value);
+      numberToGuess = Math.floor(Math.random() * numberRange) + 1;
+      attempts = 0;
+
+      document.getElementById("intro-section").classList.add("hidden");
+      document.getElementById("game-section").classList.remove("hidden");
+      document.getElementById("result-section").classList.add("hidden");
+
+      document.getElementById("game-message").textContent = `Great! I have chosen a number between 1 and ${numberRange}. Try to guess it!`;
+      document.getElementById("feedback").textContent = '';
+      document.getElementById("attempts").textContent = '';
+      document.getElementById("guess-input").value = '';
+    }
+
+    function submitGuess() {
+      const guess = parseInt(document.getElementById("guess-input").value);
+      if (isNaN(guess) || guess < 1 || guess > numberRange) {
+        document.getElementById("feedback").textContent = `Please enter a valid number between 1 and ${numberRange}.`;
+        return;
+      }
+
+      attempts++;
+
+      if (guess < numberToGuess) {
+        document.getElementById("feedback").textContent = "Too low! Try again.";
+      } else if (guess > numberToGuess) {
+        document.getElementById("feedback").textContent = "Too high! Try again.";
+      } else {
+        document.getElementById("game-section").classList.add("hidden");
+        document.getElementById("result-section").classList.remove("hidden");
+        document.getElementById("result-message").textContent = `🎉 Congratulations! You guessed the number in ${attempts} attempt(s)!`;
+        return;
+      }
+
+      document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+      document.getElementById("guess-input").value = '';
+    }
+
+    function resetGame() {
+      document.getElementById("intro-section").classList.remove("hidden");
+      document.getElementById("game-section").classList.add("hidden");
+      document.getElementById("result-section").classList.add("hidden");
+    }
+  </script>
+
+</body>
+</html>
