@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f0f4f8;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Random Generator</h1>
+
+  <button onclick="generateRandoms()">Generate Random Values</button>
+
+  <div class="result">
+    <p id="random-integer"></p>
+    <p id="random-float"></p>
+    <p id="random-choice"></p>
+  </div>
+
+  <script>
+    function generateRandoms() {
+      // Random integer between 1 and 100
+      const randomInteger = Math.floor(Math.random() * 100) + 1;
+      document.getElementById("random-integer").textContent = `Random Integer: ${randomInteger}`;
+
+      // Random float between 0 and 1
+      const randomFloat = Math.random();
+      document.getElementById("random-float").textContent = `Random Float: ${randomFloat.toFixed(5)}`;
+
+      // Random choice from a list
+      const choices = ['apple', 'banana', 'cherry'];
+      const randomChoice = choices[Math.floor(Math.random() * choices.length)];
+      document.getElementById("random-choice").textContent = `Random Choice: ${randomChoice}`;
+    }
+  </script>
+
+</body>
+</html>
