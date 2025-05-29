@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NumberAll - Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .hidden {
+      display: none;
+    }
+    input[type="number"] {
+      width: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to NumberAll!</h1>
 
+  <div id="difficulty-section">
+    <h2>Choose a difficulty level:</h2>
+    <select id="difficulty">
+      <option value="10">Facile Mode (1-10)</option>
+      <option value="50">Easy (1-50)</option>
+      <option value="100">Medium (1-100)</option>
+      <option value="200">Hard (1-200)</option>
+      <option value="1000">Turbo Mode (1-1000)</option>
+    </select>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <div id="game-section" class="hidden">
+    <p id="game-message"></p>
+    <input type="number" id="user-guess" min="1" />
+    <button onclick="makeGuess()">Guess</button>
+    <p id="attempt-info"></p>
+  </div>
+
+  <div id="replay-section" class="hidden">
+    <p id="result-message"></p>
+    <button onclick="startGame()">Play Again</button>
+    <button onclick="resetGame()">Exit</button>
+  </div>
+
+  <script>
+    let numberToGuess = 0;
+    let attempts = 0;
+    const maxAttempts = 10;
+    let numberRange = 10;
+
+    function startGame() {
+      numberRange = parseInt(document.getElementById("difficulty").value);
+      numberToGuess = Math.floor(Math.random() * numberRange) + 1;
+      attempts = 0;
+
+      document.getElementById("difficulty-section").classList.add("hidden");
+      document.getElementById("game-section").classList.remove("hidden");
+      document.getElementById("replay-section").classList.add("hidden");
+
+      document.getElementById("game-message").textContent =
+        `I have chosen a number between 1 and ${numberRange}. Try to guess it!`;
+      document.getElementById("attempt-info").textContent = `Attempts left: ${maxAttempts - attempts}`;
+      document.getElementById("user-guess").value = '';
+    }
+
+    function makeGuess() {
+      const userGuess = parseInt(document.getElementById("user-guess").value);
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > numberRange) {
+        alert(`Please enter a number between 1 and ${numberRange}.`);
+        return;
+      }
+
+      attempts++;
+      if (userGuess < numberToGuess) {
+        document.getElementById("game-message").textContent = "Too low! Try again.";
+      } else if (userGuess > numberToGuess) {
+        document.getElementById("game-message").textContent = "Too high! Try again.";
+      } else {
+        document.getElementById("game-message").textContent = `Congratulations! You guessed the number in ${attempts} attempt(s)!`;
+        endGame(true);
+        return;
+      }
+
+      if (attempts >= maxAttempts) {
+        endGame(false);
+      } else {
+        document.getElementById("attempt-info").textContent = `Attempts left: ${maxAttempts - attempts}`;
+        document.getElementById("user-guess").value = '';
+      }
+    }
+
+    function endGame(won) {
+      document.getElementById("game-section").classList.add("hidden");
+      document.getElementById("replay-section").classList.remove("hidden");
+      document.getElementById("result-message").textContent = won
+        ? "Well done! Want to play again?"
+        : `Sorry, you've used all your attempts! The correct number was ${numberToGuess}. Play again?`;
+    }
+
+    function resetGame() {
+      document.getElementById("difficulty-section").classList.remove("hidden");
+      document.getElementById("game-section").classList.add("hidden");
+      document.getElementById("replay-section").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
