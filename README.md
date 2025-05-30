@@ -1,3 +1,6 @@
+<p align="center"> NumberGuess
+
+##
 NumberGuess is a number logic game
 with 5 different levels 
 you can choose from.
@@ -17,4 +20,4 @@ d73928430@gmail.com
 
 - The3DP
 ##
-This repository will near completion by Saturday.
+This repository is fully (100%) complete.
